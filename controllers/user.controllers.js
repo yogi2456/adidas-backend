@@ -177,7 +177,7 @@ export const AddToWishlist = async (req, res) => {
       return res.json({ success: false, message: "user not found"});
     }
 
-    return res.json({ success: true, message: "Product successfully added to widhlist"})
+    return res.json({ success: true, message: "Product successfully added to wishlist"})
   } catch (error) {
     return res.json({ success: false, error})
   }

@@ -98,3 +98,62 @@ export const GetAllProduts = async (req, res) => {
         return res.json({ success: false, error})
     }
 }
+
+
+export const DeleteProduct = async (req, res) => {
+    try {
+        const { id } = req.query;
+        if (!id) return res.status(404).json({ message: "Id not found." })
+
+        await ProductSchema.findByIdAndRemove(id)
+        return res.status(200).json({ success: true, message: "Product deleted successfully." })
+
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ success: false, message: error })
+    }
+}
+
+export const UpdateProduct = async (req, res) => {
+    try {
+        const { name, price, image, category, quantity, tags, _id } = req.body.productData;
+        if(!name || !price || !image || !category || !quantity || !tags || !_id ) return res.status(404).json({success: false, message: "All fields are required."})
+
+            // const {userId} = req.body;
+
+        await ProductSchema.findByIdAndUpdate(_id, {name, price, image, category, quantity, tags,})
+
+        return res.status(200).json({success: true, message: "Product updated successfully"})
+
+    } catch (error) {
+        return res.status(500).json({success: false, message: error})
+    }
+}
+
+export const GetSingleProduct = async (req, res) => {
+    try {
+        const { id: productId } = req.query;
+        if(!productId) return res.status(404).json({success: false, message: " Product Id is required"})
+
+        const product = await ProductSchema.findById(productId).select("-createdAt -updatedAt -_v")
+        if (product) {
+            return res.status(200).json({ success: true, message: "product found", product: product})
+        }
+        return res.status(404).json({success: false, message: "product not found"})
+    } catch (error) {
+        return res.status(500).json({success: false, message: error})
+    }
+}
+
+export const YourProducts = async (req, res) => {
+    try {
+        const {id} = req.body;
+        if(!id) return res.status(401).json({success: false, message: "Id not found"})
+
+        const allProducts = await ProductSchema.find({userId: id})
+        return res.status(200).json({success: true, products: allProducts})
+    } catch (error) {
+        return res.status(500).json({success: false, message: error})
+    }
+}

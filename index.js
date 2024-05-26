@@ -11,7 +11,7 @@ import cookieParser from 'cookie-parser';
 const app = express();
 
 var corsOptions = {
-    origin: ["http://localhost:3000", "https://adidas-clone-puce.vercel.app"],
+    origin: ["http://localhost:3000", "https://adidas-clone-topaz.vercel.app"],
     credentials: true,
 };
 

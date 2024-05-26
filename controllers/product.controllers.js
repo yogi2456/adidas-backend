@@ -105,7 +105,7 @@ export const DeleteProduct = async (req, res) => {
         const { id } = req.query;
         if (!id) return res.status(404).json({ message: "Id not found." })
 
-        await ProductSchema.findByIdAndRemove(id)
+        await ProductSchema.findOneAndDelete(id)
         return res.status(200).json({ success: true, message: "Product deleted successfully." })
 
 
